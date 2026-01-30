@@ -32,4 +32,31 @@ Key idea:
 ---
 
 ## 🏗️ Architecture (High Level)
+User Input
+↓
+Text Preprocessing
+↓
+MBTI Personality Classifier
+↓
+Personality-Aware Response Generator
+↓
+Adaptive Chat Response
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend**
+- HTML, CSS, JavaScript
+- Modern UI components (dark theme)
+
+**Backend / AI**
+- Python
+- NLP techniques (TF-IDF / embeddings / ML models)
+- Personality classification logic
+- Rule-based + AI-driven response adaptation
+
+**Tools**
+- Git & GitHub
+- VS Code / Google Colab (for experimentation)
 

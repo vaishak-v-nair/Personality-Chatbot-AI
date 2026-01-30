@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI Personality Chatbot - AI-Powered Conversations</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Main Container -->
+  <div class="app-wrapper">
+    
+    <!-- Navigation Sidebar -->
+    <nav class="navigation-sidebar" id="sidebar">
+      <div class="nav-header">
+        <div class="logo-container">
+          <div class="logo-icon">
+            <span class="material-icons-round">psychology</span>
+          </div>
+          <div class="logo-text">
+            <h3>MBTI<span class="logo-accent">Chat</span></h3>
+            <p>Personality AI</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-divider"></div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">
+          <span class="material-icons-outlined">history</span>
+          Recent Chats
+        </div>
+        <div class="chat-history-container">
+          <div class="empty-state">
+            <span class="material-icons-outlined">chat_bubble_outline</span>
+            <p>No chat history yet</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-footer">
+        <button class="btn-new-chat" onclick="startNewChat()">
+          <span class="material-icons-round">add_circle</span>
+          <span>New Conversation</span>
+        </button>
+        
+        <div class="personality-stats">
+          <div class="stat-item">
+            <span class="material-icons-outlined">auto_awesome</span>
+            <div class="stat-info">
+              <span class="stat-label">Chats Analyzed</span>
+              <span class="stat-value" id="chatCount">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Header Bar -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="btn-menu-toggle" onclick="toggleSidebar()">
+            <span class="material-icons-round">menu</span>
+          </button>
+          <div class="header-info">
+            <h1 class="header-title">
+              <span class="material-icons-round">smart_toy</span>
+              MBTI Personality Assistant
+            </h1>
+            <p class="header-subtitle">AI-powered personality detection & adaptive responses</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <button class="btn-icon" title="Settings">
+            <span class="material-icons-outlined">settings</span>
+          </button>
+          <button class="btn-icon" title="Help">
+            <span class="material-icons-outlined">help_outline</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Chat Container -->
+      <div class="chat-container">
+        
+        <!-- Welcome Card (shows before first message) -->
+        <div class="welcome-card" id="welcomeCard">
+          <div class="welcome-icon">
+            <span class="material-icons-round">waving_hand</span>
+          </div>
+          <h2>Welcome to MBTI ChatAssist</h2>
+          <p>I'm an AI trained to detect your personality type and adapt my responses accordingly. Share your thoughts, and I'll respond in a way that resonates with your MBTI personality!</p>
+          
+          <div class="feature-grid">
+            <div class="feature-item">
+              <span class="material-icons-round">psychology</span>
+              <h4>Personality Detection</h4>
+              <p>Analyzes your text to identify MBTI type</p>
+            </div>
+            <div class="feature-item">
+              <span class="material-icons-round">forum</span>
+              <h4>Adaptive Responses</h4>
+              <p>Tailored communication for each type</p>
+            </div>
+            <div class="feature-item">
+              <span class="material-icons-round">lightbulb</span>
+              <h4>16 Personalities</h4>
+              <p>Supports all MBTI personality types</p>
+            </div>
+          </div>
+          
+          <div class="quick-starters">
+            <p class="starters-title">Try asking:</p>
+            <div class="starter-chips">
+              <button class="chip" onclick="sendQuickMessage('How are you today?')">
+                <span>How are you today? 👋</span>
+              </button>
+              <button class="chip" onclick="sendQuickMessage('Tell me about yourself')">
+                <span>Tell me about yourself 💭</span>
+              </button>
+              <button class="chip" onclick="sendQuickMessage('What can you do?')">
+                <span>What can you do? ✨</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages Area -->
+        <div id="chatMessages" class="messages-area">
+          <!-- Messages will be inserted here dynamically -->
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="input-wrapper">
+          <div class="input-box">
+            <textarea 
+              id="userInput" 
+              class="message-input" 
+              placeholder="Type your message here..." 
+              rows="1"
+              autocomplete="off"
+            ></textarea>
+            <div class="input-actions">
+              <button class="btn-input-action" title="Voice input">
+                <span class="material-icons-outlined">mic</span>
+              </button>
+              <button class="btn-send" id="sendBtn" onclick="sendMessage()" disabled>
+                <span class="material-icons-round">send</span>
+              </button>
+            </div>
+          </div>
+          <div class="input-footer">
+            <span class="input-hint">
+              <span class="material-icons-outlined">info</span>
+              Press Enter to send, Shift+Enter for new line
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toast">
+    <span class="material-icons-round toast-icon">check_circle</span>
+    <span class="toast-message" id="toastMessage">Action completed</span>
+  </div>
+
+  <!-- Personality Badge Modal (optional) -->
+  <div class="personality-modal" id="personalityModal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Detected Personality</h3>
+        <button class="btn-close-modal" onclick="closePersonalityModal()">
+          <span class="material-icons-round">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="personality-badge-large">
+          <span class="personality-type" id="modalPersonalityType">INTJ</span>
+          <span class="personality-name" id="modalPersonalityName">The Architect</span>
+        </div>
+        <p class="personality-description" id="modalPersonalityDesc">
+          Strategic, analytical, and independent thinkers.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+</html>
